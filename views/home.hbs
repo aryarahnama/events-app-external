@@ -3,6 +3,7 @@
 <ul >
   {{#events}}
     <li>
+        <img src={{ image }} />
         <h2>{{ title }}</h2>
         <p>{{ description }}</p>
         <p>Location: {{ location }}</p>
@@ -62,6 +63,11 @@
                 <div class="mb-3">  
                     <label for="etime" class="form-label">End Time</label>
                     <input name="etime" class="form-control" type="time" />
+                </div>
+
+                <div class="mb-3">  
+                    <label for="image" class="form-label">Image Link</label>
+                    <input name="image" class="form-control" type="url" />
                 </div>
 
                 <div class="mb-3">  

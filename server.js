@@ -151,7 +151,7 @@ app.post('/event',
                 json: true // response from server will be json format
             },
             () => {  
-                res.redirect("/"); // redirect to the home page on successful response
+                res.redirect("/home"); // redirect to the home page on successful response
             });
 
     });

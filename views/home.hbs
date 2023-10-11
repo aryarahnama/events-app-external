@@ -6,6 +6,8 @@
         <h2>{{ title }}</h2>
         <p>{{ description }}</p>
         <p>Location: {{ location }}</p>
+        <p>Date: {{ date }}</p>
+        <p>Time: {{ time }}</p>
         <p>Likes: {{ likes }}
         <form method="POST" action="/event/like">
         <input type="hidden" value="{{id}}" name="id">
@@ -13,7 +15,7 @@
         </form>
         <form method="POST" action="/event/unlike">
         <input type="hidden" value="{{id}}" name="id">
-        <input type="submit" value="DisLike">
+        <input type="submit" value="Dislike">
         </form>
         </p>
     </li>

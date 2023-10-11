@@ -65,7 +65,54 @@ app.get('/', (req, res) => {
                 console.log('error:', error); // Print the error if one occurred
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
                 console.log(body); // print the return from the server microservice
-                res.render('home',
+                // res.render('login');
+                res.render('login', //home
+                    {
+                        layout: 'default',  //the outer html page
+                        // template: 'index-template', // the partial view inserted into 
+                        // // {{body}} in the layout - the code
+                        // // in here inserts values from the JSON
+                        // // received from the server
+                        // events: body.events
+                    }); // pass the data from the server to the template
+            }
+        });
+});
+
+// In your routes file or server.js/app.js
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+// Handling main page rendering
+app.get('/home', (req, res) => {
+    // make a request to the backend microservice using the request package
+    // the URL for the backend service should be set in configuration 
+    // using an environment variable. Here, the variable is passed 
+    // to npm start inside package.json:
+    //  "start": "SERVER=http://localhost:8082 node server.js",
+    request.get(  // first argument: url + return format
+        {
+            url: SERVER + '/events',  // the microservice end point for events
+            json: true  // response from server will be json format
+        }, // second argument: function with three args,
+        // runs when server response received
+        // body hold the return from the server
+        (error, response, body) => {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                res.render('error_message',
+                    {
+                        layout: 'default',  //the outer html page
+                        error: error // pass the data from the server to the template
+                    });
+            }
+            else {
+                console.log('error:', error); // Print the error if one occurred
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                console.log(body); // print the return from the server microservice
+                // res.render('login');
+                res.render('home', //home
                     {
                         layout: 'default',  //the outer html page
                         template: 'index-template', // the partial view inserted into 
@@ -76,7 +123,13 @@ app.get('/', (req, res) => {
                     }); // pass the data from the server to the template
             }
         });
+  });
+  
+
+app.post('/home', (req, res) => {
+    res.redirect('/home');
 });
+  
 
 // defines a route that receives the post request to /event
 app.post('/event',

@@ -1,24 +1,29 @@
 {{!-- We are going to bootstrap this webpage! --}}
 
-<ul >
+<ul class="text-center row row-column-3" style="list-style-type:none;">
   {{#events}}
-    <li>
-        <h2>{{ title }}</h2>
-        <p>{{ description }}</p>
-        <p>Location: {{ location }}</p>
-        <p>Date: {{ date }}</p>
-        <p>Start Time: {{ stime }}</p>
-        <p>End Time: {{ etime }}</p>
-        <p>Likes: {{ likes }}
-        <form method="POST" action="/event/like">
-        <input type="hidden" value="{{id}}" name="id">
-        <input type="submit" value="Like">
-        </form>
-        <form method="POST" action="/event/unlike">
-        <input type="hidden" value="{{id}}" name="id">
-        <input type="submit" value="Dislike">
-        </form>
-        </p>
+    <li class="col" style="display:inline-block;padding:10px;">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" style="display:block;max-height:100px;" src="https://www.differencebetween.info/sites/default/files/images_articles_d7_1/test.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ title }}</h5>
+                <p class="card-text">{{ description }}</p>
+                <p class="card-text">{{ location }}</p>
+                <p class="card-text">Date: {{ date }}</p>
+                <p class="card-text">Start Time: {{ stime }}</p>
+                <p class="card-text">End Time: {{ etime }}</p>
+                <p class="card-text">Likes: {{ likes }}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <form method="POST" action="/event/like">
+                    <input type="hidden" value="{{id}}" name="id">
+                    <input type="submit" value="Like">
+                </form>
+                <form method="POST" action="/event/unlike">
+                    <input type="hidden" value="{{id}}" name="id">
+                    <input type="submit" value="Dislike">
+                </form>
+            </div>
+        </div>
     </li>
   {{/events}}
 </ul>

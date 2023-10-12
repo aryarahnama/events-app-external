@@ -3,8 +3,10 @@
 <ul class="text-center row row-column-3" style="list-style-type:none;">
   {{#events}}
     <li class="col" style="display:inline-block;padding:10px;">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" style="display:block;max-height:100px;" src="https://www.differencebetween.info/sites/default/files/images_articles_d7_1/test.jpg" alt="Card image cap">
+        <div class="card" style="width:18rem;">
+            <div style="width:100%;height:150px;display:table-cell;vertical-align:middle;text-align:center;overflow:hidden;">
+                <img class="card-img-top" style="width:100%;object-fit:cover;" src="https://www.differencebetween.info/sites/default/files/images_articles_d7_1/test.jpg" alt="Card image cap">
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{ title }}</h5>
                 <p class="card-text">{{ description }}</p>

@@ -8,12 +8,13 @@
                 <img class="card-img-top" style="width:100%;object-fit:cover;" src={{ image }} alt="Card image cap">
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ title }}</h5>
-                <p class="card-text">{{ description }}</p>
-                <p class="card-text">{{ location }}</p>
-                <p class="card-text">Date: {{ date }}</p>
-                <p class="card-text">Start Time: {{ stime }}</p>
-                <p class="card-text">End Time: {{ etime }}</p>
+                <h5 class="card-title" style="font-weight:bold;">{{ title }}</h5>
+                <p class="card-text" style="color:DarkGray; font-style:italic;">Description: {{ description }}</p>
+                <p class="card-text" style="font-size:16px; font-weight:bold;">{{ location }}</p>
+                <p class="card-text" style="font-size:14px; color:#538b01; font-weight:bold; font-style:italic;">Date: {{ date }}</p>
+                <p class="card-text" style="font-size:14px; color:#538b01; font-weight:bold; font-style:italic;">Time: {{ stime }} - {{ etime }}</p>
+                {{!-- <p class="card-text">Start Time: {{ stime }}</p>
+                <p class="card-text">End Time: {{ etime }}</p> --}}
                 <p class="card-text">Likes: {{ likes }}</p>
                 <form method="POST" action="/event/like">
                     <input type="hidden" value="{{id}}" name="id">

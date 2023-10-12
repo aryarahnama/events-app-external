@@ -13,7 +13,6 @@
                 <p class="card-text">Start Time: {{ stime }}</p>
                 <p class="card-text">End Time: {{ etime }}</p>
                 <p class="card-text">Likes: {{ likes }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
                 <form method="POST" action="/event/like">
                     <input type="hidden" value="{{id}}" name="id">
                     <input type="submit" value="Like">

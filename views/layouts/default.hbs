@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     .lift-on-hover:hover {
         scale: 1.1;
@@ -27,6 +28,142 @@
         window.onbeforeunload = function(e) {
             localStorage.setItem('scrollpos', window.scrollY);
         };
+    </script>
+
+    <script> 
+        const ADS = [
+            "https://i.pinimg.com/originals/b5/96/f8/b596f869ab2c23ded48a377e3ba083a4.jpg",
+            "https://webneel.com/daily/sites/default/files/images/daily/06-2016/18-lg-washing-machine-print-ads-by-david-pinilla.jpg",
+            "https://tse3.mm.bing.net/th/id/OIP.FhAy2POKyoGjH5XIDXFREQHaJk?pid=ImgDet&rs=1",
+            "https://tse2.mm.bing.net/th/id/OIP.mVEraIrtUkeUXzVlI2DTKAAAAA?pid=ImgDet&rs=1",
+            "https://tse4.mm.bing.net/th/id/OIP.vXBY_4mI1rZ_tfSzj1dh7wHaJi?pid=ImgDet&rs=1",
+            "https://mir-s3-cdn-cf.behance.net/project_modules/1400/75635043499641.57fba4d53e7ef.jpg",
+            "https://i.pinimg.com/originals/17/a4/88/17a4889bd5194e6d2e6261338058c2f4.jpg",
+            "https://gurulocity.com/wp-content/uploads/2016/10/2016-Colgate-Print-Advertisement-732x1024.jpeg"
+        ];
+
+        var next_ad = 0;
+
+        var num_banners = 0;
+        const MAX_BANNERS = 3;
+
+        const H=$(window).height();
+        const W=$(window).width();
+
+        const MIN_INTERVAL = 6000;
+        const MAX_INTERVAL = 10000;
+
+        const MIN_WIDTH_PERCENT=.20;
+        const MIN_HEIGHT_PERCENT=.20;
+
+        const min_width = MIN_WIDTH_PERCENT * W;
+        const min_height = MIN_HEIGHT_PERCENT * H;
+
+        function selectFromRange(range) {
+            const FIRST=0;
+            const SECOND=1;
+
+            const range_size = range[SECOND] - range[FIRST];
+
+            const choice = Math.random() * range_size;
+
+            return choice + range[FIRST];
+        }
+
+        function generateNextAdBounds() {
+            // select size
+            const ad_width = selectFromRange([min_width, W]);
+            const ad_height = selectFromRange([min_height, H]);
+
+            console.log(ad_width);
+
+            const safe_border_vert = ad_height / 2;
+            const safe_border_horiz = ad_width / 2;
+
+            const start_x_range = [safe_border_horiz, W-safe_border_horiz];
+            const start_y_range = [safe_border_vert, H-safe_border_vert];
+
+            // these represent the middle of the add
+            start_x = selectFromRange(start_x_range);
+            start_y = selectFromRange(start_y_range);
+
+            return {
+                x: start_x - ad_width/2,
+                y: start_y - ad_height/2,
+                width: ad_width,
+                height: ad_height
+            };        
+        }
+
+        const body = document.getElementsByTagName('body')[0]
+
+        function renderNextAd() {
+            // generate next ad position
+            dim = generateNextAdBounds();
+
+            // dim = {x: 100, y: 100, width: 100, height: 100};            
+
+            // add it on top of the dom
+            // block the entire DOM
+            // reference to itself for deletion
+
+            // for now randomize color
+            const max_sat = 255;
+            const id = num_banners;
+
+            const img_url = ADS[next_ad % ADS.length];
+            next_ad += 1;
+            
+            // implement deletion
+            // implement blocking
+            body.insertAdjacentHTML('beforeEnd', `
+                <div id="banner_${id}" style="position:absolute;left:0;right:0;top:0;bottom:0;">
+                    <div style="position:absolute;left:${dim['x']}px;top:${dim['y']}px;width:${dim['width']}px;height:${dim['height']}px;margin:0;">
+                        <img style="position:absolute;width:100%;" src="${img_url}" />
+                        <button style="position:absolute;top:0;right:0;background-color:transparent;border:0;" onclick="closeBanner()">
+                            <span class="bi-x" style="font-size:25px;" />
+                        </button>
+                    </div>
+                </div>
+            `);
+
+            num_banners += 1;
+        }        
+
+        // set max number of displayed ads
+        function renderAndStartNextTimeout() {
+            renderNextAd();
+
+            if(num_banners >= MAX_BANNERS) {
+                return;
+            }
+
+            setTimeout(renderAndStartNextTimeout, selectFromRange([MIN_INTERVAL, MAX_INTERVAL]));           
+        }
+
+        function closeBanner() {
+            var triggerNewAddTimer = false;
+            if(num_banners == MAX_BANNERS) {
+                triggerNewAddTimer = true;
+            } 
+
+            const last_id = num_banners - 1;
+            document.getElementById(`banner_${last_id}`).remove();
+            num_banners -= 1;            
+
+            if(triggerNewAddTimer) {
+                kickoffAdRendering();
+            }
+        }
+
+        function kickoffAdRendering() {
+            // kick off rendering
+            setTimeout(function() {
+                renderAndStartNextTimeout();
+            }, selectFromRange([MIN_INTERVAL, MAX_INTERVAL]));
+        }
+
+        kickoffAdRendering();
     </script>
 </body>
 </html>

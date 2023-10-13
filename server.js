@@ -178,7 +178,7 @@ app.post('/event/like',
                 json: true // response from backend will be json format
             },
             () => {  
-                res.redirect("/"); // redirect to the home page on successful response
+                res.redirect("/home"); // redirect to the home page on successful response
             });
 
     });
@@ -204,7 +204,7 @@ app.post('/event/unlike',
                 json: true // response from backend will be json format
             },
             () => {  
-                res.redirect("/"); // redirect to the home page on successful response
+                res.redirect("/home"); // redirect to the home page on successful response
             });
 
     });    
